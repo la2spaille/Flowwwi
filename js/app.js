@@ -64,34 +64,34 @@ class Scroll {
         this.scroll()
     }
     scroll() {
-        // document.addEventListener('wheel', (e) => {
-        //     window.requestAnimationFrame(() => {
-        //         if (this.direction == 'vertical') {
-        //             this.delta += e.deltaY
-        //             this.scrollY = this.delta
-        //             if (this.scrollY < 0) this.scrollY = 0
-        //             this.element.style.transform = `translateY(${-this.scrollY}px)`
-        //         } else {
-        //             this.delta += e.deltaY + e.deltaX
-        //             this.element.querySelector('main').style.transform = `translateX(${-this.delta}px)`
-        //         }
-        //     })
+        document.addEventListener('wheel', (e) => {
+            window.requestAnimationFrame(() => {
+                if (this.direction == 'vertical') {
+                    this.delta += e.deltaY
+                    this.scrollY = this.delta
+                    if (this.scrollY < 0) this.scrollY = 0
+                    this.element.style.transform = `translateY(${-this.scrollY}px)`
+                } else {
+                    this.delta += e.deltaY + e.deltaX
+                    this.element.querySelector('main').style.transform = `translateX(${-this.delta}px)`
+                }
+            })
 
-        // })
-        // window.addEventListener('keydown', (e) => {
-        //     if (e.which == 40) this.scrollY += 40
-        //     if (e.which == 38) this.scrollY -= 40
-        //     if (this.scrollY < 0) this.scrollY = 0
-        //     this.element.style.transform = `translateY(${-this.scrollY}px)`
-        // })
-        this.element.addEventListener('touchstart', (e) => {
-            this.touch.startY = e.touches[0].clientY
         })
-        this.element.addEventListener('touchmove', (e) => {
-            this.touch.moveY = e.touches[0].clientY
-            this.touch.deltaY = this.touch.startY - this.touch.moveY
-            this.element.style.transform = `translateY(${-this.touch.deltaY}px)`
+        window.addEventListener('keydown', (e) => {
+            if (e.which == 40) this.scrollY += 40
+            if (e.which == 38) this.scrollY -= 40
+            if (this.scrollY < 0) this.scrollY = 0
+            this.element.style.transform = `translateY(${-this.scrollY}px)`
         })
+        // this.element.addEventListener('touchstart', (e) => {
+        //     this.touch.startY = e.touches[0].clientY
+        // })
+        // this.element.addEventListener('touchmove', (e) => {
+        //     this.touch.moveY = e.touches[0].clientY
+        //     this.touch.deltaY = this.touch.startY - this.touch.moveY
+        //     this.element.style.transform = `translateY(${-this.touch.deltaY}px)`
+        // })
 
     }
     static bind() {
