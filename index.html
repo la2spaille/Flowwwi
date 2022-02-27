@@ -21,14 +21,17 @@
         .l-snapping {
             display: flex;
             width: 100vw;
-            height: 300vw;
+            height: 100vh;
             transition: 0.3s linear;
-            position: absolute;
+            /* position: absolute; */
             flex-direction: column;
         }
         .l-snapping div {
-            height: 100vh;
+            height: 50vh;
+            max-height: 33%;
+            overflow: hidden;
             width: 100vw;
+            border: 4px solid green;
         }
     </style>
 </head>

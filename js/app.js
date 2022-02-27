@@ -51,6 +51,7 @@ class Scroll {
         this.element = element
         this.delta = 0
         this.scrollY = 0
+        this.lastScrollY = 0
         this.direction = this.element.dataset.scroll
         this.touch = {
             startX: 0,
@@ -58,43 +59,44 @@ class Scroll {
             moveX: 0,
             moveY: 0,
             deltaX: 0,
-            deltaY: 0
+            deltaY: 0,
+            lastTouch:0
         }
         this.scroll = this.scroll.bind(this);
         this.scroll()
     }
     scroll() {
-        // document.addEventListener('wheel', (e) => {
-        //     window.requestAnimationFrame(() => {
-        //         if (this.direction == 'vertical') {
-        //             this.delta += e.deltaY
-        //             this.scrollY = this.delta
-        //             if (this.scrollY < 0) this.scrollY = 0
-        //             this.element.style.transform = `translateY(${-this.scrollY}px)`
-        //         } else {
-        //             this.delta += e.deltaY + e.deltaX
-        //             this.element.querySelector('main').style.transform = `translateX(${-this.delta}px)`
-        //         }
-        //     })
-
-        // })
-        // window.addEventListener('keydown', (e) => {
-        //     if (e.which == 40) this.scrollY += 40
-        //     if (e.which == 38) this.scrollY -= 40
-        //     if (this.scrollY < 0) this.scrollY = 0
-        //     this.element.style.transform = `translateY(${-this.scrollY}px)`
-        // })
-        document.addEventListener('touchstart', (e) => {
-            this.touch.startY = e.touches[0].clientY
-            document.addEventListener('touchmove', (ee) => {
-                this.touch.moveY = ee.touches[0].clientY
-                this.touch.deltaY = this.touch.startY - this.touch.moveY
-                this.scrollY = this.touch.deltaY
-                console.log(this.touch.deltaY )
-                this.element.style.transform = `translateY(${-this.scrollY}px)`
+        setInterval(() => {
+            console.log(this.lastScrollY+this.scrollY)
+        }, 200);
+        document.addEventListener('wheel', (e) => {
+            window.requestAnimationFrame(() => {
+                if (this.direction == 'vertical') {
+                    this.delta = e.deltaY
+                    this.scrollY +=  this.delta 
+                    this.element.style.transform = `translateY(${-(this.lastScrollY+this.scrollY)}px)`
+                } else {
+                    this.delta += e.deltaY + e.deltaX
+                    this.element.querySelector('main').style.transform = `translateX(${-(this.lastScrollY+this.scrollY)}px)`
+                }
             })
         })
-        
+        window.addEventListener('keydown', (e) => {
+            if (e.which == 40) this.scrollY += 40
+            if (e.which == 38) this.scrollY -= 40
+            this.element.style.transform = `translateY(${-(this.lastScrollY+this.scrollY)}px)`
+        })
+        document.addEventListener('touchstart', (e) => {
+            this.touch.startY = e.touches[0].clientY
+            this.lastScrollY += this.scrollY
+        })
+        document.addEventListener('touchmove', (ee) => {
+            this.touch.moveY = ee.touches[0].clientY
+            this.touch.deltaY = this.touch.startY - this.touch.moveY
+            this.scrollY = this.touch.deltaY 
+            // console.log(this.touch.deltaY )
+            this.element.style.transform = `translateY(${-(this.lastScrollY+this.scrollY)}px)`
+        })
 
     }
     static bind() {
@@ -106,6 +108,10 @@ class Scroll {
     }
 }
 Scroll.bind()
+let test = function(e) {
+    console.log(e)
+}
+    window.addEventListener("wheel", test, {once:true})
 
 // class SnappingScroll extends Flowwwi {
 //     constructor(element) {
