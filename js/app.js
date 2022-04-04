@@ -70,16 +70,18 @@ class Scroll {
             console.log(this.lastScrollY+this.scrollY)
         }, 200);
         document.addEventListener('wheel', (e) => {
-            window.requestAnimationFrame(() => {
                 if (this.direction == 'vertical') {
-                    this.delta = e.deltaY
-                    this.scrollY +=  this.delta 
-                    this.element.style.transform = `translateY(${-(this.lastScrollY+this.scrollY)}px)`
+                    window.requestAnimationFrame(() => {
+                        this.delta = e.deltaY
+                        this.scrollY +=  this.delta 
+                        this.element.style.transform = `translateY(${-(this.lastScrollY+this.scrollY)}px)`
+                    })
                 } else {
-                    this.delta += e.deltaY + e.deltaX
-                    this.element.querySelector('main').style.transform = `translateX(${-(this.lastScrollY+this.scrollY)}px)`
+                    window.requestAnimationFrame(() =>{
+                        this.delta += e.deltaY + e.deltaX
+                        this.element.querySelector('main').style.transform = `translateX(${-(this.lastScrollY+this.scrollY)}px)`
+                    })
                 }
-            })
         })
         window.addEventListener('keydown', (e) => {
             if (e.which == 40) this.scrollY += 40
@@ -91,11 +93,13 @@ class Scroll {
             this.lastScrollY += this.scrollY
         })
         document.addEventListener('touchmove', (ee) => {
-            this.touch.moveY = ee.touches[0].clientY
-            this.touch.deltaY = this.touch.startY - this.touch.moveY
-            this.scrollY = this.touch.deltaY 
-            // console.log(this.touch.deltaY )
+            
+            window.requestAnimationFrame(()=> {
+                this.touch.moveY = ee.touches[0].clientY
+                this.touch.deltaY = this.touch.startY - this.touch.moveY
+                this.scrollY = this.touch.deltaY 
             this.element.style.transform = `translateY(${-(this.lastScrollY+this.scrollY)}px)`
+        })
         })
 
     }
